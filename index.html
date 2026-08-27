@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Raksha Bandhan!</title>
+    <style>
+        :root {
+            --primary-color: #ff4b5c;
+            --secondary-color: #ffb400;
+            --bg-gradient: linear-gradient(135deg, #2b1055, #7597de);
+            --card-bg: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            color: #fff;
+            padding: 20px;
+        }
+
+        /* Floating background animation */
+        .petals {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .petal {
+            position: absolute;
+            display: block;
+            width: 15px;
+            height: 15px;
+            background: rgba(255, 180, 0, 0.7);
+            bottom: -100px;
+            border-radius: 15px 0 15px 0;
+            animation: animate 10s infinite linear;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Container Card */
+        .card {
+            position: relative;
+            z-index: 2;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #e0e0e0;
+        }
+
+        /* Rakhi Visual Effect */
+        .rakhi-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rakhi-center {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #ffe600, #ff4b5c);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ff4b5c;
+            position: relative;
+            z-index: 2;
+            animation: pulse 2s infinite alternate;
+        }
+
+        .rakhi-thread {
+            position: absolute;
+            width: 180px;
+            height: 6px;
+            background: linear-gradient(90deg, transparent, #ffb400, #ff4b5c, #ffb400, transparent);
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 10px #ff4b5c; }
+            100% { transform: scale(1.1); box-shadow: 0 0 25px #ffe600; }
+        }
+
+        /* Secret Message Box */
+        .message-box {
+            display: none;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-style: italic;
+            border-left: 4px solid var(--secondary-color);
+            animation: slideDown 0.5s ease-out forwards;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff4b5c, #ff8c00);
+            border: none;
+            padding: 12px 25px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 75, 92, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-3deg);
+            box-shadow: 0 6px 20px rgba(255, 75, 92, 0.6);
+        }
+
+        /* Canvas for confetti */
+        canvas#confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti"></canvas>
+
+    <div class="petals" id="petals"></div>
+
+    <div class="card">
+        <div class="rakhi-container">
+            <div class="rakhi-thread"></div>
+            <div class="rakhi-center"></div>
+        </div>
+
+        <h1>Happy Raksha Bandhan !</h1>
+        <p class="subtitle">To the best sister in the world 🌸</p>
+
+        <p>Thank you for always being there for me !</p>
+
+        <div class="message-box" id="secretMessage">
+            "Having a sister like you is one of the greatest blessings. Hjr mero lagi eakdam special hunuhunxa. Malai support garni,samjhauni bujauni garnu hunxa.Yo sab kura ko lagi ma eakdam thankful xu.Hjr ko lagi mero mun ma dherai respect ani maya pani xa rw sadhai vari hunexa.Hjr lai kaile birsini xainw .Happy Rakshabandan didi.I wish for your better health and better future.!"
+        </div>
+
+        <div class="btn-group">
+            <button onclick="revealMessage()">Tap for a Special Message 💌</button>
+            <button onclick="triggerCelebration()">Celebrate 🎉</button>
+        </div>
+    </div>
+
+    <script>
+        // Generate Floating Petals
+        const petalsContainer = document.getElementById('petals');
+        for (let i = 0; i < 20; i++) {
+            const petal = document.createElement('span');
+            petal.classList.add('petal');
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.animationDelay = Math.random() * 8 + 's';
+            petal.style.animationDuration = 6 + Math.random() * 6 + 's';
+            petalsContainer.appendChild(petal);
+        }
+
+        // Toggle Secret Message
+        function revealMessage() {
+            const msg = document.getElementById('secretMessage');
+            if (msg.style.display === 'block') {
+                msg.style.display = 'none';
+            } else {
+                msg.style.display = 'block';
+                triggerCelebration();
+            }
+        }
+
+        // Canvas Confetti Celebration
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function triggerCelebration() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 12,
+                    vy: (Math.random() - 0.5) * 12,
+                    size: Math.random() * 8 + 4,
+                    color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+                    life: 100
+                });
+            }
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.1; // gravity
+                p.life -= 1;
+
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (p.life <= 0) {
+                    particles.splice(index, 1);
+                }
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+        animateConfetti();
+    </script>
+</body>
+</html>
